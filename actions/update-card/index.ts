@@ -1,56 +1,54 @@
-'use server';
+"use server";
 
-import type { InputeType, ReturnType } from './types';
-
-import { auth } from '@clerk/nextjs';
-import { revalidatePath } from 'next/cache';
-import { ACTION, ENTITY_TYPE } from '@prisma/client';
-
-import { db } from '@/lib/db';
-import { createSafeAction } from '@/lib/create-safe-atcion';
-import { createAuditLog } from '@/lib/create-audit-log';
-
-import { UpdateCard } from './schema';
+import { createSafeAction } from "@/lib/create-safe-action";
+import { db } from "@/lib/db";
+import { auth } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
+import { UpdateCard } from "./schema";
+import { createAuditLog } from "@/lib/create-audit-log";
+import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { InputeType, ReturnType } from "./types";
 
 const handler = async (data: InputeType): Promise<ReturnType> => {
-    const { userId, orgId } = auth();
+  const { userId, orgId } = auth();
 
-    if (!userId || !orgId) {
-        return {
-            error: 'Unauthorized',
-        };
-    }
+  if (!userId || !orgId) {
+    return {
+      error: "Unauthorized",
+    };
+  }
 
-    const { id, boardId, ...values } = data;
+  const { id, boardId, ...values } = data;
 
-    let card;
+  let card;
 
-    try {
-        card = await db.card.update({
-            where: {
-                id,
-                list: {
-                    board: {
-                        orgId,
-                    },
-                },
-            },
-            data: {
-                ...values,
-            },
-        });
-        await createAuditLog({
-            entityId: card.id,
-            entityTitle: card.title,
-            entityType: ENTITY_TYPE.CARD,
-            action: ACTION.UPDATE,
-        });
-    } catch (error) {
-        return { error: 'Failed to update.' };
-    }
+  try {
+    card = await db.card.update({
+      where: {
+        id,
+        list: {
+          board: {
+            orgId,
+          },
+        },
+      },
+      data: {
+        ...values,
+      },
+    });
 
-    revalidatePath(`/board/${boardId}`);
-    return { data: card };
+    await createAuditLog({
+      entityId: card.id,
+      entityTitle: card.title,
+      entityType: ENTITY_TYPE.CARD,
+      action: ACTION.UPDATE,
+    });
+  } catch (error) {
+    return { error: "Failed to update." };
+  }
+
+  revalidatePath(`/board/${boardId}`);
+  return { data: card };
 };
 
 export const updateCard = createSafeAction(UpdateCard, handler);

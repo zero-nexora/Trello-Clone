@@ -1,9 +1,9 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-import type { Card } from '@prisma/client';
-import type { ActionState } from '@/lib/create-safe-atcion';
+import type { Card } from "@prisma/client";
 
-import { UpdateCard } from './schema';
+import { UpdateCard } from "./schema";
+import type { ActionState } from "@/lib/create-safe-action";
 
 export type InputeType = z.infer<typeof UpdateCard>;
 export type ReturnType = ActionState<InputeType, Card>;

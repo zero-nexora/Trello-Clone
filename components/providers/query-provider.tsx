@@ -21,7 +21,7 @@ export const QueryProvider = ({ children }: QueryProviderProps) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      QueryProvider
+      {children}
     </QueryClientProvider>
   );
 };

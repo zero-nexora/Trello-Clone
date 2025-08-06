@@ -1,10 +1,13 @@
+import type { CardWithList } from "@/types";
+import type { AuditLog } from "@prisma/client";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useCardModal } from "@/hooks/use-card-modal";
 import { fetcher } from "@/lib/fetcher";
-import { CardWithList } from "@/types";
-import { AuditLog } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { Header } from "./header";
+import { Description } from "./description";
+import { Activity } from "./activity";
+import { Actions } from "./actions";
 
 export const CardModal = () => {
   const id = useCardModal((state) => state.id);
@@ -21,9 +24,28 @@ export const CardModal = () => {
     queryFn: () => fetcher(`/api/cards/${id}/logs`),
   });
 
-  return <Dialog open={isOpen} onOpenChange={onClose}>
-    <DialogContent>
-      {cardData ? <Header data={cardData} /> : <Header.Skeleton />}
-    </DialogContent>
-  </Dialog>;
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent>
+        {cardData ? <Header data={cardData} /> : <Header.Skeleton />}
+        <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
+          <div className="col-span-3">
+            <div className="w-full space-y-6">
+              {cardData ? (
+                <Description data={cardData} />
+              ) : (
+                <Description.Skeleton />
+              )}
+              {auditLogData ? (
+                <Activity items={auditLogData} />
+              ) : (
+                <Activity.Skeleton />
+              )}
+            </div>
+          </div>
+          {cardData ? <Actions data={cardData} /> : <Actions.Skeleton />}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 };

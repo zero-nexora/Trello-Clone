@@ -1,3 +1,5 @@
+"use server"
+
 import { auth } from "@clerk/nextjs";
 import type { InputeType, ReturnType } from "./types";
 import { db } from "@/lib/db";
@@ -7,7 +9,7 @@ import { createSafeAction } from "@/lib/create-safe-action";
 import { revalidatePath } from "next/cache";
 import { DeleteCard } from "./schema";
 
-const hadnler = async (data: InputeType): Promise<ReturnType> => {
+const handler = async (data: InputeType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
 
   if (!userId || !orgId) {
@@ -43,4 +45,4 @@ const hadnler = async (data: InputeType): Promise<ReturnType> => {
   return { data: card };
 };
 
-export const deleteCard = createSafeAction(DeleteCard, hadnler);
+export const deleteCard = createSafeAction(DeleteCard, handler);

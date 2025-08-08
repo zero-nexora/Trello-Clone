@@ -96,7 +96,7 @@ export const FormPicker = ({ id, errors }: FormPickerProps) => {
           </div>
         ))}
       </div>
-      <FormErrors id="images" errors={errors} />
+      <FormErrors id="image" errors={errors} />
     </div>
   );
 };

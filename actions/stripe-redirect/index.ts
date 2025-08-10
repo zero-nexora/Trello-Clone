@@ -1,7 +1,8 @@
 "use server";
 
-import { auth, currentUser } from "@clerk/nextjs";
 import type { ReturnType } from "./types";
+
+import { auth, currentUser } from "@clerk/nextjs";
 import { absoluteUrl } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { createSafeAction } from "@/lib/create-safe-action";

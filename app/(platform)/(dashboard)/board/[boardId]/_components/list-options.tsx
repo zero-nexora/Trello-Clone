@@ -69,7 +69,7 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
           List actions
         </div>
         <PopoverClose ref={closeRef} asChild>
-          <Button className="absolute right-2 top-2 h-auto w-auto p-2 text-neutral-600">
+          <Button className="absolute right-2 top-2 h-auto w-auto p-2 text-neutral-600" variant={"ghost"}>
             <X className="h-4 w-4" />
           </Button>
         </PopoverClose>

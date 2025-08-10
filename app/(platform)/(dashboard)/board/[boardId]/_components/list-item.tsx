@@ -4,6 +4,7 @@ import { Draggable, Droppable } from "@hello-pangea/dnd";
 import { ElementRef, useRef, useState } from "react";
 import { ListHeader } from "./list-header";
 import { CardItem } from "./card-item";
+import { CardForm } from "./card-form";
 
 interface ListItemProps {
   data: ListWithCards;
@@ -22,7 +23,6 @@ export const ListItem = ({ data, index }: ListItemProps) => {
     setIsEditing(true);
     setTimeout(() => {
       textareaRef.current?.focus();
-      textareaRef.current?.select();
     });
   };
 
@@ -32,7 +32,7 @@ export const ListItem = ({ data, index }: ListItemProps) => {
         <li
           {...provider.draggableProps}
           ref={provider.innerRef}
-          className="h-full w-[272]px shrink-0 select-none"
+          className="h-full w-[272px] shrink-0 select-none"
         >
           <div
             {...provider.dragHandleProps}
@@ -45,7 +45,7 @@ export const ListItem = ({ data, index }: ListItemProps) => {
                   {...provider.droppableProps}
                   ref={provider.innerRef}
                   className={cn(
-                    "mx-1 flex flex-col gap-y-2 px-1 py-0.5 ",
+                    "mx-1 flex flex-col gap-y-2 px-1 py-0.5",
                     data.cards.length > 0 ? "mt-2" : "mt-0"
                   )}
                 >
@@ -56,7 +56,12 @@ export const ListItem = ({ data, index }: ListItemProps) => {
                 </ol>
               )}
             </Droppable>
-            {/* <CardForm /> */}
+            <CardForm
+              disableEditing={disableEditing}
+              enableEditing={enableEditing}
+              listId={data.id}
+              isEditing={isEditing}
+            />
           </div>
         </li>
       )}

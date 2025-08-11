@@ -23,13 +23,13 @@ export const CardModal = () => {
     queryKey: ["card-logs", id],
     queryFn: () => fetcher(`/api/cards/${id}/logs`),
   });
-  
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         {cardData ? <Header data={cardData} /> : <Header.Skeleton />}
         <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
-          <div className="col-span-3">
+          <div className="cols-span-1 md:col-span-3">
             <div className="w-full space-y-6">
               {cardData ? (
                 <Description data={cardData} />

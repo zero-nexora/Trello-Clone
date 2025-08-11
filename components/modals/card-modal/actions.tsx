@@ -61,6 +61,7 @@ export const Actions = ({ data }: ActionsProps) => {
         disabled={isLoadingCopy}
         className="w-full justify-start"
         size={"inline"}
+        variant={"gray"}
       >
         <Copy className="mr-2 h-4 w-4" />
         Copy
